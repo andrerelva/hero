@@ -67,7 +67,9 @@ public class Arena {
     }
 
     private void moveHero(Position position) {
-        hero.setPosition(position);
+        if (canElementMove(position)) {
+            hero.setPosition(position);
+        }
     }
 
     public void moveMonsters() {
