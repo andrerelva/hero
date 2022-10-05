@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    Arena arena = new Arena(50, 50);
+    Arena arena = new Arena(80, 24);
 
     public Game() {
         try {
@@ -33,6 +33,7 @@ public class Game {
     public void run() {
         while (true) {
             try {
+                arena.retrieveCoins();
                 draw();
                 KeyStroke key = screen.readInput();
                 processKey(key);
