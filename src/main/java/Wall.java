@@ -10,19 +10,12 @@ public class Wall {
         position = new Position(x, y);
     }
 
-    public int getX() {
-        return position.getX();
+    public Position getPosition() {
+        return position;
     }
 
-    public int getY() {
-        return position.getY();
-    }
-
-    public void setX(int x) {
+    public void setPosition(int x, int y) {
         position.setX(x);
-    }
-
-    public void setY(int y) {
         position.setY(y);
     }
 
