@@ -16,12 +16,14 @@ public class Arena {
 
     private List<Wall> walls;
     private List<Coin> coins;
+    private List<Monster> monsters;
 
     public Arena(int width, int height) {
         this.width = width;
         this.height = height;
         this.walls = createWalls();
         this.coins = createCoins();
+        this.monsters = createMonsters();
     }
 
     private List<Wall> createWalls() {
@@ -46,7 +48,16 @@ public class Arena {
         return coins;
     }
 
-    private boolean canHeroMove(Position position) {
+    private List<Monster> createMonsters() {
+        Random random = new Random();
+        ArrayList<Monster> monsters = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+            monsters.add(new Monster(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1));
+        return monsters;
+    }
+
+    private boolean canElementMove(Position position) {
         for (Wall wall : walls) {
             if (wall.getPosition().equals(position)) {
                 return false;
@@ -56,9 +67,30 @@ public class Arena {
     }
 
     private void moveHero(Position position) {
-        if (canHeroMove(position)) {
-            hero.setPosition(position);
+        hero.setPosition(position);
+    }
+
+    public void moveMonsters() {
+        for (Monster monster : monsters) {
+            Position tentative;
+            do {
+                Random random = new Random();
+                //0 for X, 1 for Y
+                int xOrY = random.nextInt(2);
+                //0 for -, 1 for +
+                int direction = random.nextInt(2) == 0 ? -1 : 1;
+                if (xOrY == 0) tentative = new Position(monster.getPosition().getX() + direction, monster.getPosition().getY());
+                else tentative = new Position(monster.getPosition().getX(), monster.getPosition().getY() + direction);
+            } while (!canElementMove(tentative));
+            monster.move(tentative);
         }
+    }
+
+    public boolean verifyMonsterCollisions() {
+        for (Monster monster : monsters) {
+            if (monster.getPosition().equals(hero.position)) return true;
+        }
+        return false;
     }
 
     public void retrieveCoins() {
@@ -92,6 +124,7 @@ public class Arena {
                 graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         for (Wall wall : walls) wall.draw(graphics);
         for (Coin coin : coins) coin.draw(graphics);
+        for (Monster monster: monsters) monster.draw(graphics);
         hero.draw(graphics);
     }
 }

@@ -40,6 +40,11 @@ public class Game {
                 if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
                     screen.close();
                 } else if (key.getKeyType() == KeyType.EOF) break;
+                arena.moveMonsters();
+                if (arena.verifyMonsterCollisions()) {
+                    System.out.println("YOU DIED");
+                    screen.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
