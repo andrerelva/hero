@@ -1,0 +1,20 @@
+import com.googlecode.lanterna.graphics.TextGraphics;
+
+public abstract class Element {
+    Position position;
+
+    public Element(int x, int y) {
+        position = new Position(x, y);
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(int x, int y) {
+        position.setX(x);
+        position.setY(y);
+    }
+
+    public abstract void draw(TextGraphics graphics);
+}
